@@ -52,6 +52,10 @@ jobs:
       run: terraform refresh
       working-directory: infra/terraform  # Path to Terraform files
 
+    - name: Terraform Destroy Existing Instance
+      working-directory: infra/terraform
+      run: terraform destroy -auto-approve -target=aws_instance.app_server
+
     - name: Terraform Plan
       id: plan
       run: terraform plan -out=tfplan
@@ -59,5 +63,5 @@ jobs:
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply tfplan
+      run: terraform apply -auto-approve tfplan
       working-directory: infra/terraform  # Path to Terraform files
