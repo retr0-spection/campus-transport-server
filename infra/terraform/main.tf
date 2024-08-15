@@ -22,7 +22,10 @@ resource "aws_instance" "app_server" {
               sudo amazon-linux-extras install docker -y
               sudo service docker start
               sudo usermod -a -G docker ec2-user
-              
+
+              # Enable Docker to start on boot
+              sudo systemctl enable docker
+
               # Clone your application repository
               git clone https://github.com/retr0-spection/campus-transport-server.git /home/ec2-user/app
 
@@ -40,7 +43,6 @@ resource "aws_instance" "app_server" {
     Name = "DockerAppServer"
   }
 
-    # Specify lifecycle behavior
   lifecycle {
     create_before_destroy = true  # Create new instance before destroying old one
   }
