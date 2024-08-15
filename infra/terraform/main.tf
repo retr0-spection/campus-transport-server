@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 data "aws_security_group" "existing_sg" {
-  name = "default"  # Replace with your security group name
+  name = "launch-wizard-1"  # Replace with your security group name
 }
 
 resource "aws_instance" "app_server" {
