@@ -16,7 +16,7 @@ resource "aws_instance" "app_server" {
               curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -
               sudo yum install -y nodejs
               sudo npm install -g pm2
-              git clone https://github.com/your-username/your-repo.git /home/ec2-user/app
+              git clone https://github.com/retr0-spection/campus-transport-server.git /home/ec2-user/app
               cd /home/ec2-user/app
               npm install --production
               pm2 start src/bin/ww.js
