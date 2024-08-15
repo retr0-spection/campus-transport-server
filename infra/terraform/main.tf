@@ -39,6 +39,11 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = "DockerAppServer"
   }
+
+    # Specify lifecycle behavior
+  lifecycle {
+    create_before_destroy = true  # Create new instance before destroying old one
+  }
 }
 
 output "instance_ip" {
