@@ -8,7 +8,7 @@ data "aws_security_group" "existing_sg" {
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-0ae8f15ae66fe8cda"  # Amazon Linux 2 AMI
+  ami           = "ami-0a38c1c38a15fed74"  # Amazon Linux 2 AMI
   instance_type = "t2.micro"
 
   key_name = var.key_name
