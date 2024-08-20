@@ -7,7 +7,7 @@ data "aws_security_group" "existing_sg" {
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-0a38c1c38a15fed74"  # Amazon Linux 2 AMI
+  ami           = "ami-02d3770deb1c746ec "  # Amazon Linux 2 AMI
   instance_type = "t2.micro"
 
   key_name = var.key_name  # Replace with your SSH key name
@@ -19,7 +19,7 @@ resource "aws_instance" "app_server" {
               sudo yum update -y
 
               # Install Docker
-              sudo amazon-linux-extras install docker -y
+              sudo yum install docker -y
               sudo service docker start
               sudo usermod -a -G docker ec2-user
 
