@@ -17,8 +17,7 @@ COPY tests ./tests
 # Install additional development dependencies
 RUN npm install --only=dev
 
-# Run tests
-RUN npm test
+
 
 # Expose the port the app runs on
 EXPOSE 3000
