@@ -1,12 +1,18 @@
 import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
 const app = express();
 
 // Middleware to handle JSON requests
 app.use(express.json());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Define a route
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.sendFile(__dirname + '/pages/index.html')
 });
 
 
