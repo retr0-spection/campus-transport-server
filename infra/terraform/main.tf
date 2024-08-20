@@ -30,7 +30,7 @@ resource "aws_instance" "app_server" {
               sudo yum install -y git
 
               # Clone your private repository using PAT
-              git clone https://<your_github_username>:${var.github_token}@github.com/retr0-spection/campus-transport-server.git /home/ec2-user/app
+              git clone https://retr0-spection:${var.github_token}@github.com/retr0-spection/campus-transport-server.git /home/ec2-user/app
 
               # Change to the app directory
               cd /home/ec2-user/app
