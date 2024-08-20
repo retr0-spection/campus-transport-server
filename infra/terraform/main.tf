@@ -26,8 +26,11 @@ resource "aws_instance" "app_server" {
               # Enable Docker to start on boot
               sudo systemctl enable docker
 
-              # Clone your application repository
-              git clone https://github.com/retr0-spection/campus-transport-server.git /home/ec2-user/app
+              # Install git
+              sudo yum install -y git
+
+              # Clone your private repository using PAT
+              git clone https://<your_github_username>:${var.github_token}@github.com/retr0-spection/campus-transport-server.git /home/ec2-user/app
 
               # Change to the app directory
               cd /home/ec2-user/app
