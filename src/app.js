@@ -15,5 +15,9 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/pages/index.html')
 });
 
+app.get('/test', (req, res) => {
+    res.send()
+});
+
 
 export default app
