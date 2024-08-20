@@ -7,7 +7,7 @@ data "aws_security_group" "existing_sg" {
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-02d3770deb1c746ec "  # Amazon Linux 2 AMI
+  ami           = "ami-0a38c1c38a15fed74"  # Amazon Linux 2 AMI
   instance_type = "t2.micro"
 
   key_name = var.key_name  # Replace with your SSH key name
