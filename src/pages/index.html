@@ -3,144 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Schedules API Documentation</title>
+    <title>Auth API Microservice Routes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h3 {
-            color: #2c3e50;
-        }
-        pre {
+            margin: 0;
+            padding: 20px;
             background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .route {
+            background-color: #fff;
             padding: 15px;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            overflow-x: auto;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        code {
-            color: #e74c3c;
+        .route h2 {
+            color: #555;
         }
-        .section {
-            margin-bottom: 40px;
+        .method {
+            font-weight: bold;
+            color: #007BFF;
+        }
+        .description {
+            margin-top: 5px;
+            color: #666;
         }
         .example {
-            background-color: #ecf0f1;
-            padding: 15px;
+            background-color: #e9ecef;
+            padding: 10px;
             border-radius: 5px;
-            border: 1px solid #bdc3c7;
+            font-family: "Courier New", Courier, monospace;
+            margin-top: 10px;
+        }
+        .example code {
+            display: block;
+            white-space: pre;
+        }
+        .response {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Bus Schedules API Documentation</h1>
-    <div class="section">
-        <h3>/api/bus-schedules</h3>
-        <pre><code>{
-  "routeId": string (optional),
-  "stopId": string (optional),
-  "date": string (YYYY-MM-DD format, optional, defaults to current date),
-  "startTime": string (HH:MM format, optional),
-  "endTime": string (HH:MM format, optional)
-}</code></pre>
-    </div>
 
-    <div class="section">
-        <h3>Request Parameters</h3>
-        <pre><code>{
-  "status": string,
-  "data": {
-    "schedules": [
-      {
-        "scheduleId": string,
-        "routeId": string,
-        "routeName": string,
-        "stops": [
-          {
-            "stopId": string,
-            "stopName": string,
-            "arrivalTime": string (HH:MM format),
-            "departureTime": string (HH:MM format),
-            "coordinates": {
-              "latitude": number,
-              "longitude": number
-            }
-          }
-        ],
-        "busInfo": {
-          "busId": string,
-          "capacity": number,
-          "accessibilityFeatures": [string]
-        }
-      }
-    ],
-    "pagination": {
-      "currentPage": number,
-      "totalPages": number,
-      "totalItems": number,
-      "itemsPerPage": number
-    }
-  },
-  "message": string
-}</code></pre>
-    </div>
+    <h1>Auth API Microservice Routes</h1>
 
-    <div class="section">
-        <h3>Example Request:</h3>
+    <div class="route">
+        <h2><span class="method">POST</span> /api/auth/register</h2>
+        <p class="description">Registers a new user by creating an account.</p>
         <div class="example">
-            GET /api/bus-schedules?routeId=R001&date=2024-08-21&startTime=08:00&endTime=10:00
+            <strong>Example Request Body:</strong>
+            <code>
+{<br>
+    "username": "johndoe",<br>
+    "email": "johndoe@example.com",<br>
+    "password": "password123"<br>
+}
+            </code>
+            <div class="response">
+                <strong>Example Response (201 Created):</strong>
+                <code>
+{<br>
+    "message": "User registered successfully",<br>
+    "user": {<br>
+        "id": "123456",<br>
+        "username": "johndoe",<br>
+        "email": "johndoe@example.com"<br>
+    }<br>
+}
+                </code>
+            </div>
         </div>
     </div>
 
-    <div class="section">
-        <h3>Example Response:</h3>
-        <pre><code>{
-  "status": "success",
-  "data": {
-    "schedules": [
-      {
-        "scheduleId": "SCH001",
-        "routeId": "R001",
-        "routeName": "Campus Loop",
-        "stops": [
-          {
-            "stopId": "S001",
-            "stopName": "Main Gate",
-            "arrivalTime": "08:00",
-            "departureTime": "08:05",
-            "coordinates": {
-              "latitude": -26.1924,
-              "longitude": 28.0306
-            }
-          },
-          {
-            "stopId": "S002",
-            "stopName": "Student Center",
-            "arrivalTime": "08:15",
-            "departureTime": "08:20",
-            "coordinates": {
-              "latitude": -26.1932,
-              "longitude": 28.0320
-            }
-          }
-        ],
-        "busInfo": {
-          "busId": "BUS001",
-          "capacity": 40,
-          "accessibilityFeatures": ["wheelchair ramp", "low floor"]
-        }
-      }
-    ],
-    "pagination": {
-      "currentPage": 1,
-      "totalPages": 1,
-      "totalItems": 1,
-      "itemsPerPage": 10
-    }
-  },
-  "message": "Bus schedules retrieved successfully"
-}</code></pre>
+    <div class="route">
+        <h2><span class="method">POST</span> /api/auth/login</h2>
+        <p class="description">Logs in a user and returns an authentication token.</p>
+        <div class="example">
+            <strong>Example Request Body:</strong>
+            <code>
+{<br>
+    "email": "johndoe@example.com",<br>
+    "password": "password123"<br>
+}
+            </code>
+            <div class="response">
+                <strong>Example Response (200 OK):</strong>
+                <code>
+{<br>
+    "message": "Login successful",<br>
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br>
+    "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br>
+}
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="route">
+        <h2><span class="method">POST</span> /api/auth/logout</h2>
+        <p class="description">Logs out the currently authenticated user by invalidating their token.</p>
+        <div class="example">
+            <strong>Example Request Header:</strong>
+            <code>
+Authorization: Bearer &lt;token&gt;
+            </code>
+            <div class="response">
+                <strong>Example Response (200 OK):</strong>
+                <code>
+{<br>
+    "message": "Logout successful"<br>
+}
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="route">
+        <h2><span class="method">GET</span> /api/auth/me</h2>
+        <p class="description">Retrieves the currently authenticated user's details.</p>
+        <div class="example">
+            <strong>Example Request Header:</strong>
+            <code>
+Authorization: Bearer &lt;token&gt;
+            </code>
+            <div class="response">
+                <strong>Example Response (200 OK):</strong>
+                <code>
+{<br>
+    "id": "123456",<br>
+    "username": "johndoe",<br>
+    "email": "johndoe@example.com"<br>
+}
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="route">
+        <h2><span class="method">POST</span> /api/auth/refresh</h2>
+        <p class="description">Refreshes the authentication token.</p>
+        <div class="example">
+            <strong>Example Request Header:</strong>
+            <code>
+Authorization: Bearer &lt;refresh_token&gt;
+            </code>
+            <div class="response">
+                <strong>Example Response (200 OK):</strong>
+                <code>
+{<br>
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br>
+    "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br>
+}
+                </code>
+            </div>
+        </div>
     </div>
 
 </body>
