@@ -2,6 +2,7 @@ import app from '../app.js'
 import mongoose from 'mongoose';
 
 //setup mongodb
+const port = 3000
 const dbInit = async () => {
     try {
       if (process.env.NODE_ENV == "test") {
@@ -11,7 +12,9 @@ const dbInit = async () => {
       }
       mongoose.set("strictQuery", false);
   
-      server.listen(port);
+      app.listen(port, () => {
+        console.log(`Server is running at http://localhost:${port}`);
+    });
     } catch (error) {
       console.error(error);
       process.exit(1);
@@ -22,9 +25,5 @@ const dbInit = async () => {
 
   await dbInit();
 // Start the server
-const port = 3000
-const server = app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
 
-export default server
+export default app
