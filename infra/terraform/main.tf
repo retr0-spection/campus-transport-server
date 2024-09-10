@@ -43,7 +43,7 @@ resource "aws_instance" "app_server" {
               EOF
 
   tags = {
-    Name = "DockerAppServer"
+    Name = "AuthServer"
   }
 
   lifecycle {
