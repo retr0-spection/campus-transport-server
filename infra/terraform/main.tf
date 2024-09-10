@@ -51,6 +51,19 @@ resource "aws_instance" "app_server" {
   }
 }
 
+# Use the already allocated Elastic IP
+resource "aws_eip" "my_eip" {
+  # Use the allocated Elastic IP
+  public_ip = "35.155.11.168"
+  vpc       = true
+}
+
+# Associate the Elastic IP with the instance
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.app_server.id
+  allocation_id = aws_eip.my_eip.id
+}
+
 output "instance_ip" {
-  value = aws_instance.app_server.public_ip
+  value = aws_eip.my_eip.public_ip
 }
