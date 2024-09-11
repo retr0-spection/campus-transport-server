@@ -5,10 +5,6 @@ const router = express.Router()
 
 
 router.post('/register', register)
-router.get('/', (req, res) => {
-
-    res.send("hello world");
-})
 router.post('/login', login)
 router.post('/logout', logout)
 router.get('/me', me)

@@ -10,7 +10,7 @@ const REFRESH_EXPIRATION = process.env.REFRESH_EXPIRATION || '7d';
 // Register a new user
 export const register = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { email, password } = req.body;
 
         // Check if the user already exists
         const existingUser = await User.findOne({ email });
@@ -45,8 +45,11 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
+
         // Check the password
+        console.log(user)
         const isMatch = await user.comparePassword(password);
+
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
@@ -61,7 +64,6 @@ export const login = async (req, res) => {
             refresh_token: refreshToken
         });
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
@@ -76,7 +78,7 @@ export const logout = (req, res) => {
 export const me = async (req, res) => {
     try {
         const userId = req.user.id; // Assuming the user ID is stored in req.user by a middleware
-        const user = await User.findById(userId).select('-password'); // Exclude password from the returned user
+        const user = await User.findById(userId) // Exclude password from the returned user
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

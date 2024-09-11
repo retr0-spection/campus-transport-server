@@ -1,7 +1,12 @@
 import app from '../app.js'
+import docRouter from '../routers/v1/docs/docs.js'
 import mongoose from 'mongoose';
 import dotenv from "dotenv";
 dotenv.config();
+
+
+//attach docs
+app.use('/docs', docRouter)
 
 //setup mongodb
 const port = 3000

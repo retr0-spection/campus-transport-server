@@ -59,59 +59,73 @@ describe('Auth Controller', () => {
     });
 
     describe('login', () => {
+        let findOneSpy, compareSpy, signSpy;
+    
+        beforeEach(() => {
+            findOneSpy = jest.spyOn(User, 'findOne');
+            signSpy = jest.spyOn(jwt, 'sign');
+        });
+    
+        afterEach(() => {
+            findOneSpy.mockRestore();
+            signSpy.mockRestore();
+        });
+    
         it('should log in a user with valid credentials', async () => {
             const mockUser = {
-                _id:"amockId",
+                _id: "0",
                 email: 'testuser@example.com',
-                password: 'password123'
+                password: 'password123',
+                comparePassword: jest.fn().mockResolvedValue(true), // Mock comparePassword
             };
-
-            User.findOne.mockResolvedValue(mockUser);
-            bcrypt.compare.mockResolvedValue(true);
-            jwt.sign.mockReturnValue('mockToken');
-
+    
+            findOneSpy.mockResolvedValue(mockUser);
+            mockUser.comparePassword.mockResolvedValue(true); // Simulate password match
+            signSpy.mockReturnValue('mockToken'); // Mock token generation
+    
             const req = {
                 body: {
                     email: 'testuser@example.com',
-                    password: 'password123'
-                }
+                    password: 'password123',
+                },
             };
-
+    
             const res = {
                 status: jest.fn().mockReturnThis(),
-                json: jest.fn()
+                json: jest.fn(),
             };
-
+    
             await login(req, res);
-
-            expect(User.findOne).toHaveBeenCalledWith({ email: req.body.email });
-            // expect(jwt.sign).toHaveBeenCalledWith({ id: mockUser._id }, expect.any(String), { expiresIn: expect.any(String) });
-            // expect(res.status).toHaveBeenCalledWith(200);
-            // expect(res.json).toHaveBeenCalledWith({
-            //     message: 'Login successful',
-            //     token: 'mockToken',
-            //     refresh_token: 'mockToken'
-            // });
+    
+            expect(findOneSpy).toHaveBeenCalledWith({ email: req.body.email });
+            expect(mockUser.comparePassword).toHaveBeenCalledWith(mockUser.password);
+            expect(signSpy).toHaveBeenCalledTimes(2); // Token and refresh token
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                message: 'Login successful',
+                token: 'mockToken',
+                refresh_token: 'mockToken',
+            });
         });
-
+    
         it('should not log in a user with invalid credentials', async () => {
-            User.findOne.mockResolvedValue(null);
-
+            findOneSpy.mockResolvedValue(null); // No user found
+    
             const req = {
                 body: {
                     email: 'wrong@example.com',
-                    password: 'password123'
-                }
+                    password: 'password123',
+                },
             };
-
+    
             const res = {
                 status: jest.fn().mockReturnThis(),
-                json: jest.fn()
+                json: jest.fn(),
             };
-
+    
             await login(req, res);
-
-            expect(User.findOne).toHaveBeenCalledWith({ email: req.body.email });
+    
+            expect(findOneSpy).toHaveBeenCalledWith({ email: req.body.email });
             expect(res.status).toHaveBeenCalledWith(400);
             expect(res.json).toHaveBeenCalledWith({ message: 'Invalid email or password' });
         });
@@ -133,18 +147,31 @@ describe('Auth Controller', () => {
     });
 
     describe('me', () => {
+        let findByIdSpy
+    
+        beforeEach(() => {
+            findByIdSpy = jest.spyOn(User, 'findById');
+        });
+
+        afterEach(() => {
+            findByIdSpy.mockRestore();
+        });
+        
         it('should get the current user profile', async () => {
+         
+            
             const mockUser = {
-                id: '123',
+                _id: '123',
                 username: 'testuser',
                 email: 'testuser@example.com'
             };
 
-            User.findById.mockResolvedValue(mockUser);
+            findByIdSpy.mockResolvedValue(mockUser);
 
             const req = {
-                user: { id: '123' }
+                user: { id: '123' } //assumed returned by middleware
             };
+
             const res = {
                 status: jest.fn().mockReturnThis(),
                 json: jest.fn()
@@ -152,9 +179,9 @@ describe('Auth Controller', () => {
 
             await me(req, res);
 
-            expect(User.findById).toHaveBeenCalledWith(req.user.id);
-            // expect(res.status).toHaveBeenCalledWith(200);
-            // expect(res.json).toHaveBeenCalledWith(mockUser);
+            expect(findByIdSpy).toHaveBeenCalledWith(req.user.id);
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(mockUser);
         });
 
         it('should return 404 if user not found', async () => {
