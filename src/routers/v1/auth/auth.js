@@ -1,10 +1,11 @@
-import { register, login, logout, me, refresh } from '../../../controllers/auth/authController.js';
+import { register, googleAuth, login, logout, me, refresh } from '../../../controllers/auth/authController.js';
 import express from 'express'
 
 const router = express.Router()
 
 
 router.post('/register', register)
+router.post('/google-auth', googleAuth)
 router.post('/login', login)
 router.post('/logout', logout)
 router.get('/me', me)
