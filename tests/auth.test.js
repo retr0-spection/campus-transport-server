@@ -147,61 +147,51 @@ describe('Auth Controller', () => {
     });
 
     describe('me', () => {
-        let findByIdSpy
+        let req, res;
     
         beforeEach(() => {
-            findByIdSpy = jest.spyOn(User, 'findById');
+            req = {};
+            res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
         });
-
-        afterEach(() => {
-            findByIdSpy.mockRestore();
+    
+        it('should return 404 if user is not found', async () => {
+            req.user = null; // Simulating that no user is set by middleware
+    
+            await me(req, res);
+    
+            expect(res.status).toHaveBeenCalledWith(404);
+            expect(res.json).toHaveBeenCalledWith({ message: 'User not found' });
         });
-        
-        it('should get the current user profile', async () => {
-         
-            
+    
+        it('should return user data if user is found', async () => {
+            // Mock user object with a serializeData function
             const mockUser = {
-                _id: '123',
-                username: 'testuser',
-                email: 'testuser@example.com'
+                //...other fields
+                serializeData: jest.fn().mockReturnValue({ email: 'user@example.com' }),
             };
-
-            findByIdSpy.mockResolvedValue(mockUser);
-
-            const req = {
-                user: { id: '123' } //assumed returned by middleware
-            };
-
-            const res = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn()
-            };
-
+    
+            req.user = mockUser;
+    
             await me(req, res);
-
-            expect(findByIdSpy).toHaveBeenCalledWith(req.user.id);
+    
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(mockUser);
+            expect(mockUser.serializeData).toHaveBeenCalled(); // Verify that serializeData was called
+            expect(res.json).toHaveBeenCalledWith({ email: 'user@example.com' });
         });
-
-        it('should return 404 if user not found', async () => {
-            User.findById.mockResolvedValue(null);
-
-            const req = {
-                user: { id: 'nonexistent' }
-            };
-            const res = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn()
-            };
-
+    
+        it('should handle server error', async () => {
+            req.user = { serializeData: jest.fn(() => { throw new Error('Some error'); }) }; // Simulating an error in serializeData
+    
             await me(req, res);
-
-            expect(User.findById).toHaveBeenCalledWith(req.user.id);
-            // expect(res.status).toHaveBeenCalledWith(404);
-            // expect(res.json).toHaveBeenCalledWith({ message: 'User not found' });
+    
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ message: 'Server error', error: 'Some error' });
         });
     });
+    
 
     describe('refresh', () => {
         it('should refresh the JWT token', async () => {
