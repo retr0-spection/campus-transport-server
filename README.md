@@ -2,6 +2,8 @@
 # KuduNav Authentication Microservice
 This is the centre to all of KuduNavs Authentication needs
 
+# Badges
+[![codecov](https://codecov.io/gh/retr0-spection/campus-transport-server/graph/badge.svg?token=SV2FSW5AB1)](https://codecov.io/gh/retr0-spection/campus-transport-server)
 ## Run Locally  
 Clone the project  
 
