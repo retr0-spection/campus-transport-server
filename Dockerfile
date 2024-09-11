@@ -18,7 +18,7 @@ COPY src ./src
 COPY tests ./tests
 
 # Install additional development dependencies
-RUN npm install --only=dev
+RUN npm install -D
 
 
 

@@ -4,14 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest",
-    "start": "node src/bin/ww.js"
+    "test": "NODE_ENV=test jest --coverage",
+    "start": "node src/bin/ww.js",
+    "dev": "nodemon src/bin/ww.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "google-auth-library": "^9.14.1",
+    "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
+    "mongoose": "^8.6.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0",
     "uuid": "^10.0.0"
   },
   "type": "module",
@@ -20,11 +30,6 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/register": "^7.24.6",
-    "babel-plugin-transform-import-meta": "^2.2.1",
-    "bcrypt": "^5.1.1",
-    "jest": "^29.7.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.6.0",
-    "supertest": "^7.0.0"
+    "babel-plugin-transform-import-meta": "^2.2.1"
   }
 }
