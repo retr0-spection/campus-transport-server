@@ -1,26 +1,20 @@
 import express from 'express';
+import v1API from './routers/v1/index.js'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import v1API from './routers/v1/index.js'
 
 const app = express();
 
 // Middleware to handle JSON requests
 app.use(express.json());
-
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export const __dirname = dirname(__filename);
 
-app.use('/api/v1', v1API)
 
-// Define a route
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/pages/index.html')
-});
+app.use('/v1', v1API)
 
-app.get('/test', (req, res) => {
-    res.send()
-});
+
+
 
 
 export default app
