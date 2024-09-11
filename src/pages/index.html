@@ -61,19 +61,19 @@
                 <strong>Example Request Body:</strong>
                 <code>
                     {<br />
-                    "email": "johndoe@example.com",<br />
-                    "password": "password123"<br />
+                        "email": "johndoe@example.com",<br />
+                        "password": "password123"<br />
                     }
                 </code>
                 <div class="response">
                     <strong>Example Response (201 Created):</strong>
                     <code>
                         {<br />
-                        "message": "User registered successfully",<br />
-                        "user": {<br />
-                        "username": "johndoe",<br />
-                        "email": "johndoe@example.com"<br />
-                        }<br />
+                            "message": "User registered successfully",<br />
+                            "user": {<br />
+                            "username": "johndoe",<br />
+                            "email": "johndoe@example.com"<br />
+                            }<br />
                         }
                     </code>
                 </div>
@@ -83,20 +83,18 @@
         <div class="route">
             <h2><span class="method">POST</span> /api/v1/auth/google-auth</h2>
             <p class="description">
-                Registers(logs in if exists) a new user using Google.
-            </p>X-Google-Token
+                Registers/logs in a user using Google.
+            </p>
             <div class="example">
                 <strong>Example Request Header:</strong>
-                <code> X-Google-Token: Bearer &lt;idToken&gt; </code>
+                <code> X-Google-Token: &lt;idToken&gt; </code>
                 <div class="response">
-                    <strong>Example Response (201 Created):</strong>
+                    <strong>Example Response (200 OK):</strong>
                     <code>
                         {<br />
-                        "message": "User registered successfully",<br />
-                        "user": {<br />
-                        "username": "johndoe",<br />
-                        "email": "johndoe@example.com"<br />
-                        }<br />
+                            "message": "Authentication successful",<br />
+                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br />
+                            "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br />
                         }
                     </code>
                 </div>
@@ -112,17 +110,17 @@
                 <strong>Example Request Body:</strong>
                 <code>
                     {<br />
-                    "email": "johndoe@example.com",<br />
-                    "password": "password123"<br />
+                        "email": "johndoe@example.com",<br />
+                        "password": "password123"<br />
                     }
                 </code>
                 <div class="response">
                     <strong>Example Response (200 OK):</strong>
                     <code>
                         {<br />
-                        "message": "Login successful",<br />
-                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br />
-                        "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br />
+                            "message": "Login successful",<br />
+                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br />
+                            "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br />
                         }
                     </code>
                 </div>
@@ -142,7 +140,7 @@
                     <strong>Example Response (200 OK):</strong>
                     <code>
                         {<br />
-                        "message": "Logout successful"<br />
+                            "message": "Logout successful"<br />
                         }
                     </code>
                 </div>
@@ -161,8 +159,8 @@
                     <strong>Example Response (200 OK):</strong>
                     <code>
                         {<br />
-                        "id": "123456",<br />
-                        "email": "johndoe@example.com"<br />
+                            "id": "123456",<br />
+                            "email": "johndoe@example.com"<br />
                         }
                     </code>
                 </div>
@@ -179,8 +177,8 @@
                     <strong>Example Response (200 OK):</strong>
                     <code>
                         {<br />
-                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br />
-                        "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br />
+                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",<br />
+                            "refresh_token": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."<br />
                         }
                     </code>
                 </div>
