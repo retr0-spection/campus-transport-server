@@ -82,10 +82,10 @@ export const googleAuth = async (req, res) => {
     } finally {
       // Create JWT token
       console.log(user);
-      const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+      const token = jwt.sign({ id: user._id, email:user.email }, JWT_SECRET, {
         expiresIn: JWT_EXPIRATION,
       });
-      const refreshToken = jwt.sign({ id: user._id }, REFRESH_SECRET, {
+      const refreshToken = jwt.sign({ id: user._id,  email:user.email }, REFRESH_SECRET, {
         expiresIn: REFRESH_EXPIRATION,
       });
       res.status(200).json({
@@ -120,10 +120,10 @@ export const login = async (req, res) => {
     }
 
     // Create JWT token
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+    const token = jwt.sign({ id: user._id,  email:user.email }, JWT_SECRET, {
       expiresIn: JWT_EXPIRATION,
     });
-    const refreshToken = jwt.sign({ id: user._id }, REFRESH_SECRET, {
+    const refreshToken = jwt.sign({ id: user._id , email:user.email}, REFRESH_SECRET, {
       expiresIn: REFRESH_EXPIRATION,
     });
 
