@@ -92,7 +92,8 @@ export const googleAuth = async (req, res) => {
         message: "Authentication successful",
         token,
         refresh_token: refreshToken,
-        email:user.email
+        email:user.email,
+        id:user._id
       });
     }
   } catch (error) {
