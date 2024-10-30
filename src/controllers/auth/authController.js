@@ -36,8 +36,18 @@ export const register = async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({
-      message: "User registered successfully",
+    const token = jwt.sign({ id: newUser._id, email:newUser.email }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRATION,
+    });
+    const refreshToken = jwt.sign({ id: newUser._id,  email:newUser.email }, REFRESH_SECRET, {
+      expiresIn: REFRESH_EXPIRATION,
+    });
+    res.status(200).json({
+      message: "Authentication successful",
+      token,
+      refresh_token: refreshToken,
+      email:newUser.email,
+      id:newUser._id
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -129,9 +139,11 @@ export const login = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Login successful",
+      message: "Authentication successful",
       token,
       refresh_token: refreshToken,
+      email:user.email,
+      id:user._id
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
